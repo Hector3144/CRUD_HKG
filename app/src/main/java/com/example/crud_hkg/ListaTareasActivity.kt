@@ -24,34 +24,31 @@ class ListaTareasActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Configuración del botón "Home" para navegar a la actividad principal
+
         binding.btnHome.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
-        // Configurar RecyclerView
+
         binding.rvTareas.layoutManager = LinearLayoutManager(this)
 
-        // Observando los cambios en la lista de tareas
+
         viewModel.listaTareas.observe(this, Observer { tareas ->
             setupRecyclerView(tareas)
         })
     }
 
-    // Método para configurar el RecyclerView
+
     private fun setupRecyclerView(listaTareas: List<Tarea>) {
         tareaAdapter = TareaAdapter(listaTareas, ::borrarTarea, ::actualizarTarea)
         binding.rvTareas.adapter = tareaAdapter
     }
 
-    // Función para eliminar tarea
+
     private fun borrarTarea(id: String) {
         viewModel.borrarTarea(id)
     }
-
-    // Función para actualizar tarea
     private fun actualizarTarea(tarea: Tarea) {
-        // Implementar lógica para actualizar tarea si es necesario
     }
 }
