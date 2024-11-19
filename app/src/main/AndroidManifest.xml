@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permisos necesarios -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -14,15 +15,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CRUD_HKG"
         tools:targetApi="31">
+
+        <!-- Actividad principal (Home) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <!-- Actividad para el formulario -->
+        <activity
+            android:name=".FormularioActivity"
+            android:exported="true"
+            android:label="Formulario de Tareas" />
+
+        <!-- Actividad para la lista de tareas -->
+        <activity
+            android:name=".ListaTareasActivity"
+            android:exported="true"
+            android:label="Lista de Tareas" />
+
+    </application>
 </manifest>
