@@ -1,22 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp">
+    android:background="#FFE042">
 
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="App Logo" />
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HKG"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true" />
+
+
+
+    <!-- Botón Formulario -->
     <Button
         android:id="@+id/btnFormulario"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="Formulario" />
+        android:backgroundTint="#b5a28f"
+        android:textColor="#FFE042"
+        android:text="Formulario"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/title"
+        android:elevation="6dp"
+        android:padding="12dp" />
 
+    <!-- Botón Lista de Tareas -->
     <Button
         android:id="@+id/btnListaTareas"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#b5a28f"
+        android:textColor="#FFE042"
         android:text="Lista de Tareas"
-        android:layout_marginTop="16dp" />
-</LinearLayout>
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btnFormulario"
+        android:elevation="6dp"
+        android:padding="12dp" />
+</RelativeLayout>

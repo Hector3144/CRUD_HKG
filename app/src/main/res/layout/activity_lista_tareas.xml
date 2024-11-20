@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#f4f7fb">
 
     <!-- Título de la pantalla -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lista de Tareas"
-        android:textSize="18sp"
-        android:layout_margin="16dp" />
+        android:text="Usuarios Creados"
+        android:textSize="24sp"
+        android:textColor="#3A3A3A"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
 
     <!-- RecyclerView para mostrar las tareas -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTareas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_marginBottom="24dp" />
 
     <!-- Botones para navegar -->
     <LinearLayout
@@ -27,22 +30,30 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:paddingTop="16dp">
+        android:paddingTop="16dp"
+        android:layout_alignParentBottom="true">
 
         <!-- Botón para ir a formulario -->
+
+        <!-- Botón para ir al Home -->
         <Button
             android:id="@+id/btnNuevo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#b5a28f"
             android:text="Nuevo"
-            android:layout_marginEnd="16dp"/>
+            android:textColor="#FFFFFF" />
 
-        <!-- Botón para ir al Home -->
         <Button
             android:id="@+id/btnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home" />
+            android:text="Home"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#b5a28f"
+            android:layout_gravity="center" />
 
     </LinearLayout>
 

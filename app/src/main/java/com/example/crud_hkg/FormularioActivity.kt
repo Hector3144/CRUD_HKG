@@ -83,15 +83,39 @@ class FormularioActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
             fotoUri = data?.data // Obtener la URI de la imagen seleccionada
-            binding.imgFoto.setImageURI(fotoUri) // Mostrar la imagen en el ImageView
-            fotoBase64 = convertirImagenABase64(fotoUri) // Convertir la imagen seleccionada a Base64
+            fotoUri?.let { uri ->
+                val bitmap = obtenerBitmapDesdeUri(uri)
+                val circularBitmap = transformarImagenCircular(bitmap)
+                binding.imgFoto.setImageBitmap(circularBitmap) // Mostrar la imagen en forma circular
+                fotoBase64 = convertirImagenABase64(bitmap) // Convertir la imagen circular a Base64
+            }
         }
     }
 
-    private fun convertirImagenABase64(uri: Uri?): String? {
+    private fun obtenerBitmapDesdeUri(uri: Uri): Bitmap {
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        return BitmapFactory.decodeStream(inputStream!!)
+    }
+
+    private fun transformarImagenCircular(bitmap: Bitmap): Bitmap {
+        val size = Math.min(bitmap.width, bitmap.height)
+        val output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+
+        val canvas = android.graphics.Canvas(output)
+        val paint = android.graphics.Paint()
+        val shader = android.graphics.BitmapShader(bitmap, android.graphics.Shader.TileMode.CLAMP, android.graphics.Shader.TileMode.CLAMP)
+
+        paint.isAntiAlias = true
+        paint.shader = shader
+
+        val radius = size / 2f
+        canvas.drawCircle(radius, radius, radius, paint)
+
+        return output
+    }
+
+    private fun convertirImagenABase64(bitmap: Bitmap): String? {
         return try {
-            val inputStream: InputStream? = contentResolver.openInputStream(uri!!)
-            val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
             val outputStream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
             val byteArray = outputStream.toByteArray()
@@ -111,7 +135,6 @@ class FormularioActivity : AppCompatActivity() {
                 binding.Cedula.text.isNullOrBlank() ||
                 binding.Email.text.isNullOrBlank() ||
                 binding.Nacimiento.text.isNullOrBlank() ||
-                binding.imgFoto.drawable == null ||
                 binding.spinnerSexo.selectedItem == null)
     }
 

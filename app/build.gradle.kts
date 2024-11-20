@@ -52,14 +52,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.github.bumptech.glide:glide:4.15.1") // Última versión de Glide
+    implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
     implementation("com.google.firebase:firebase-firestore-ktx:25.1.1")
     implementation("com.google.firebase:firebase-core:21.1.1")
 
-    implementation ("com.google.firebase:firebase-database:20.0.5") // Firebase Realtime Database
-    implementation ("com.google.firebase:firebase-auth:21.0.5") // Opcional si usas autenticación
+    implementation ("com.google.firebase:firebase-database:20.0.5")
+    implementation ("com.google.firebase:firebase-auth:21.0.5")
 
 
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
@@ -74,6 +74,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
     implementation("com.google.code.gson:gson:2.8.9")
 
-    // Otras dependencias que ya tengas...
+    implementation ("com.google.android.material:material:1.9.0")
+
+
 
 }

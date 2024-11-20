@@ -5,7 +5,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -25,7 +25,7 @@ class TareaAdapter(
         val tvEmail: TextView = itemView.findViewById(R.id.rvEmail)
         val tvSexo: TextView = itemView.findViewById(R.id.rvSexo)
         val ivFoto: ImageView = itemView.findViewById(R.id.rvFoto)
-        val ibtnBorrar: ImageButton = itemView.findViewById(R.id.ibtnBorrar)
+        val btnBorrar: Button = itemView.findViewById(R.id.btnBorrar)  // Cambiado de ImageButton a Button
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,12 +36,12 @@ class TareaAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val tarea = listaTareas[position]
 
-        // Asignar datos a los TextViews
-        holder.tvTitulo.text = tarea.Nombre
-        holder.tvDescripcion.text = tarea.Apellido
-        holder.tvCedula.text = tarea.Cedula
-        holder.tvEmail.text = tarea.Email
-        holder.tvSexo.text = tarea.Sexo
+        // Asignar datos a los TextViews con el formato Nombre: Dato
+        holder.tvTitulo.text = "Nombre: ${tarea.Nombre}"
+        holder.tvDescripcion.text = "Apellido: ${tarea.Apellido}"
+        holder.tvCedula.text = "Cédula: ${tarea.Cedula}"
+        holder.tvEmail.text = "Correo: ${tarea.Email}"
+        holder.tvSexo.text = "Sexo: ${tarea.Sexo}"
 
         // Decodificar Base64 y cargar la imagen
         if (!tarea.Foto.isNullOrEmpty() && tarea.Foto.startsWith("data:image")) {
@@ -65,7 +65,7 @@ class TareaAdapter(
         }
 
         // Botón de borrar
-        holder.ibtnBorrar.setOnClickListener {
+        holder.btnBorrar.setOnClickListener {
             onBorrarClick(tarea.id)
         }
 
