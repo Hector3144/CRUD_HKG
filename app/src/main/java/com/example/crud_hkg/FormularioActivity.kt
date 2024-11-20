@@ -2,18 +2,24 @@ package com.example.crud_hkg
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Base64
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.crud_hkg.databinding.ActivityFormularioBinding
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
 class FormularioActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFormularioBinding
     private lateinit var viewModel: TareaViewModel
     private var fotoUri: Uri? = null // Variable para almacenar la URI de la imagen seleccionada
+    private var fotoBase64: String? = null // Variable para almacenar la imagen en formato Base64
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +55,7 @@ class FormularioActivity : AppCompatActivity() {
                 Cedula = binding.Cedula.text.toString(),
                 Email = binding.Email.text.toString(),
                 Sexo = binding.spinnerSexo.selectedItem.toString(),
-                Foto = fotoUri?.toString() ?: "" // Guardar la URI de la foto seleccionada
+                Foto = fotoBase64 ?: "" // Guardar la imagen en formato Base64
             )
             viewModel.agregarTarea(tarea)
             limpiarCampos()
@@ -57,7 +63,7 @@ class FormularioActivity : AppCompatActivity() {
     }
 
     private fun configurarSpinnerSexo() {
-        val opcionesSexo = listOf("Tipo de Sexo","Hombre", "Mujer")
+        val opcionesSexo = listOf("Tipo de Sexo", "Hombre", "Mujer")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, opcionesSexo)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerSexo.adapter = adapter
@@ -75,6 +81,24 @@ class FormularioActivity : AppCompatActivity() {
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
             fotoUri = data?.data // Obtener la URI de la imagen seleccionada
             binding.imgFoto.setImageURI(fotoUri) // Mostrar la imagen en el ImageView
+            fotoBase64 = convertirImagenABase64(fotoUri) // Convertir la imagen seleccionada a Base64
+        }
+    }
+
+    private fun convertirImagenABase64(uri: Uri?): String? {
+        return try {
+            val inputStream: InputStream? = contentResolver.openInputStream(uri!!)
+            val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
+            val outputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            val byteArray = outputStream.toByteArray()
+
+            // Prefijo para Base64
+            "data:image/jpeg;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error al convertir la imagen", Toast.LENGTH_SHORT).show()
+            null
         }
     }
 

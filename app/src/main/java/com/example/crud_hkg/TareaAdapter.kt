@@ -1,7 +1,7 @@
 package com.example.crud_hkg
 
-import android.net.Uri
-import android.util.Log
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 class TareaAdapter(
     var listaTareas: List<Tarea>,
@@ -26,7 +24,7 @@ class TareaAdapter(
         val tvCedula: TextView = itemView.findViewById(R.id.rvCedula)
         val tvEmail: TextView = itemView.findViewById(R.id.rvEmail)
         val tvSexo: TextView = itemView.findViewById(R.id.rvSexo)
-        val ivFoto: ImageView = itemView.findViewById(R.id.rvFoto) // ImageView para la foto
+        val ivFoto: ImageView = itemView.findViewById(R.id.rvFoto)
         val ibtnBorrar: ImageButton = itemView.findViewById(R.id.ibtnBorrar)
     }
 
@@ -45,15 +43,26 @@ class TareaAdapter(
         holder.tvEmail.text = tarea.Email
         holder.tvSexo.text = tarea.Sexo
 
-        // Cargar la imagen desde la URI `content://`
-        val uri = Uri.parse(tarea.Foto)
-        Glide.with(holder.itemView.context)
-            .load(uri) // Glide maneja la URI directamente
-            .apply(RequestOptions()
-                .placeholder(R.drawable.ic_placeholder) // Imagen mientras carga
-                .error(R.drawable.ic_error) // Imagen si hay error
-                .centerCrop()) // Ajustar la imagen al tamaño del ImageView
-            .into(holder.ivFoto)
+        // Decodificar Base64 y cargar la imagen
+        if (!tarea.Foto.isNullOrEmpty() && tarea.Foto.startsWith("data:image")) {
+            try {
+                // Remover el encabezado si existe
+                val base64Image = tarea.Foto.substringAfter(",")
+                // Decodificar los bytes
+                val decodedBytes = Base64.decode(base64Image, Base64.DEFAULT)
+                // Convertir a Bitmap
+                val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                // Mostrar en el ImageView
+                holder.ivFoto.setImageBitmap(bitmap)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // Imagen de error si algo falla
+                holder.ivFoto.setImageResource(R.drawable.ic_error)
+            }
+        } else {
+            // Imagen de marcador si no hay imagen válida
+            holder.ivFoto.setImageResource(R.drawable.ic_placeholder)
+        }
 
         // Botón de borrar
         holder.ibtnBorrar.setOnClickListener {
@@ -64,7 +73,6 @@ class TareaAdapter(
         holder.cvTarea.setOnClickListener {
             onActualizarClick(tarea)
         }
-
     }
 
     override fun getItemCount(): Int {
