@@ -59,6 +59,9 @@ class FormularioActivity : AppCompatActivity() {
             )
             viewModel.agregarTarea(tarea)
             limpiarCampos()
+            val intent = Intent(this, ListaTareasActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
