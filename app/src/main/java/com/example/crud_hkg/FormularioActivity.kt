@@ -66,7 +66,7 @@ class FormularioActivity : AppCompatActivity() {
     }
 
     private fun configurarSpinnerSexo() {
-        val opcionesSexo = listOf("Tipo de Sexo", "Hombre", "Mujer")
+        val opcionesSexo = listOf("Tipo de Sexo", "Hombre", "Mujer", "Freddy")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, opcionesSexo)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerSexo.adapter = adapter
